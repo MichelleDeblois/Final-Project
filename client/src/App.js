@@ -1,28 +1,36 @@
 import React from "react";
-import { GoogleMap, withScriptjs, withGoogleMap } from "react-google-maps";
+import Header from "./Header";
+import { BrowserRouter as Router } from "react-router-dom";
+import { Routes, Route } from "react-router";
+import HomePage from "./HomePage";
+import CoffeeShopPage from "./CoffeeShopPage";
+import styled from "styled-components";
+import LogInPage from "./LogInPage";
+import AllCoffeeShops from "./AllCoffeeShops";
 
-const Map = () => {
+const App = () => {
   return (
-    <GoogleMap
-      defaultZoom={10}
-      defaultCenter={{ lat: 45.50169, lng: -73.567253 }}
-    />
+    <>
+      <Main>
+        <Router>
+          <Header></Header>
+          <Routes>
+            <Route path="/" exact element={<HomePage />} />
+            <Route path="/coffee/:_id" element={<CoffeeShopPage />} />
+            <Route path="/login" element={<LogInPage />} />
+            <Route path="/allCoffeeShops" element={<AllCoffeeShops />} />
+            {/* <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/add-a-review" element={<ReviewPage />} /> */}
+          </Routes>
+        </Router>
+      </Main>
+    </>
   );
 };
 
-const WrappedMap = withScriptjs(withGoogleMap(Map));
-
-export default function App() {
-  return (
-    <>
-      <div style={{ width: "100vw", height: "100vh" }}>
-        <WrappedMap
-          googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyCuQXZD3vkqhL2-n9cfuRvVQW-ercz4aBI`}
-          loadingElement={<div style={{ height: "100%" }} />}
-          containerElement={<div style={{ height: "100%" }} />}
-          mapElement={<div style={{ height: "100%" }} />}
-        />
-      </div>
-    </>
-  );
-}
+const Main = styled.div`
+  font-family: "Abel", sans-serif;
+  margin: 0px;
+  text-decoration: none;
+`;
+export default App;

@@ -1,0 +1,90 @@
+[
+  {
+    "name": "Cordova",
+    "adr": "4606 Notre Dame O, Montréal",
+    "img": "/cordova.jpeg",
+    "numofReview": "3",
+    "review": "",
+    "numofRec": "5"
+  },
+  {
+    "name": "September Surf",
+    "adr": "2471 rue Notre-Dame Ouest, Montréal",
+    "img": "/September.jpeg",
+    "numofReview": "6",
+    "review": "",
+    "numofRec": "15"
+  },
+  {
+    "name": "Oui mais Non",
+    "adr": "72 Rue Jarry Est, Montréal",
+    "img": "/ouimaisnon.jpeg",
+    "numofReview": "",
+    "review": "",
+    "numofRec": ""
+  },
+  {
+    "name": "Barley",
+    "adr": "2613 Rue Notre-Dame Ouest, Montréal",
+    "img": "/Barley.jpeg",
+    "numofReview": "",
+    "review": "",
+    "numofRec": ""
+  },
+  {
+    "name": "Cafe Olimpico",
+    "adr": "124 Rue St-Viateur Ouest, Montréal",
+    "img": "/olimpico.jpeg",
+    "numofReview": "1",
+    "review": "",
+    "numofRec": "6"
+  },
+  {
+    "name": "Melk",
+    "adr": "5612 Av de Monkland, Montréal",
+    "img": "/melk.jpeg",
+    "numofReview": "56",
+    "review": "",
+    "numofRec": "185"
+  },
+  {
+    "name": "Dispatch",
+    "adr": "267 Rue Saint Zotique O, Montréal",
+    "img": "/Dispatch.jpeg",
+    "numofReview": "1",
+    "review": "",
+    "numofRec": "56"
+  },
+  {
+    "name": "Tommy Cafe",
+    "adr": "200 Notre-Dame Ouest, Montréal",
+    "img": "/tommy.jpeg",
+    "numofReview": "2",
+    "review": "",
+    "numofRec": "8"
+  },
+  {
+    "name": "Cafe Redwood",
+    "adr": "2604 Rue Saint-Patrick, Montréal",
+    "img": "/redwood.jpeg",
+    "numofReview": "",
+    "review": "",
+    "numofRec": ""
+  },
+  {
+    "name": "Bodega Mtl",
+    "adr": "248 rue de la Montagne, Montréal",
+    "img": "/bedega.jpeg",
+    "numofReview": "8",
+    "review": "",
+    "numofRec": "189"
+  },
+  {
+    "name": "Cafe Saint-Henri",
+    "adr": "3632 rue Notre-Dame Ouest, Montréal",
+    "img": "/St-henri.jpeg",
+    "numofReview": "1",
+    "review": "",
+    "numofRec": "7"
+  }
+]
