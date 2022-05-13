@@ -1,11 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { UserContext } from "./userContext";
+import Modal from "./Modal";
 
 const CoffeeShopPage = () => {
   const { _id } = useParams();
   const [shop, setShop] = useState(null);
-
+  const { currentUser, users } = useContext(UserContext);
+  const [isReccomended, setIsReccomended] = useState(false);
+  const [showUser, setShowUser] = useState(false);
+  const [review, setReview] = useState("");
+  // TO FETCH THE SINGLE COFFEESHOP
   useEffect(() => {
     const findItem = async () => {
       const response = await fetch(`/coffeeshop/${_id}`);
@@ -15,52 +21,174 @@ const CoffeeShopPage = () => {
     };
     findItem();
   }, []);
-  if (!shop) {
+
+  //TO ADD THE ADDRESS IN THE GOOGLE MAP API
+  const query = shop?.adr.split(" ").join("%20");
+
+  // FUNCTION TO ADD IN THE CURRENT USER RECCOMENDED LIST
+  const handleReccomend = () => {
+    const requestOptions = {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId: currentUser._id, shopId: shop._id }),
+    };
+
+    fetch(`/coffeeshop/${_id}`, requestOptions)
+      .then((response) => response.json())
+      .then((data) => {});
+  };
+  const handleClick = () => {
+    setIsReccomended(true);
+    handleReccomend();
+  };
+
+  // FUNCTION TO REMOVE FROM THE CURRENT USER'S RECCOMENDED LIST
+  const handleUnReccomend = () => {
+    const requestOptions = {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId: currentUser._id, shopId: shop._id }),
+    };
+
+    fetch(`/coffeeshop/remove/${_id}`, requestOptions)
+      .then((response) => response.json())
+      .then((data) => {});
+  };
+
+  const handleClickUnRec = () => {
+    setIsReccomended(false);
+    handleUnReccomend();
+  };
+
+  // TO POST A REVIEW
+
+  const handleReview = () => {
+    const requestOptions = {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userId: currentUser._id,
+        shopId: shop._id,
+        review: review,
+      }),
+    };
+
+    fetch(`/coffeeshop/review/${_id}`, requestOptions)
+      .then((response) => response.json())
+      .then((data) => {});
+  };
+  const handleChange = (event) => {
+    setReview(event.target.value);
+  };
+
+  const handleClickReview = () => {
+    console.log(review);
+    handleReview();
+  };
+  if (!shop && !users) {
     return <div>...loading</div>;
   }
-  const query = shop.adr.split(" ").join("%20");
 
   return (
     <>
-      <Wrapper>
-        <Container>
-          <SubContainer>
-            <Name> {shop.name}</Name>
-            <p>{shop.adr}</p>
-            <iframe
-              width="350"
-              height="200"
-              style={{ border: "0" }}
-              loading="lazy"
-              allowFullScreen
-              referrerPolicy="no-referrer-when-downgrade"
-              src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyDBuSQ_yYIWjvtH8qF7YcCBkIcjkqljhBo&q=${query}`}
-            ></iframe>
-            <p>this coffee shop has {shop.numofReview} reviews</p>
-            <p>
-              {" "}
-              the coffee shop has been recommended by {shop.numofRec} people
-            </p>
-            <ReviewBox>
-              <p>{shop.review}</p>
-              <form>
-                <input
+      {!shop && <div>...loading</div>}
+      {shop && users && (
+        <Wrapper>
+          <Container>
+            <SubContainer>
+              <Name> {shop.name}</Name>
+              <p>{shop.adr}</p>
+              <iframe
+                width="350"
+                height="200"
+                style={{ border: "0" }}
+                loading="lazy"
+                allowFullScreen
+                referrerPolicy="no-referrer-when-downgrade"
+                src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyDBuSQ_yYIWjvtH8qF7YcCBkIcjkqljhBo&q=${query}`}
+              ></iframe>
+              <p>this coffee shop has {shop.numofReview} reviews</p>
+              <p>
+                the coffee shop has been recommended by{" "}
+                <button onClick={() => setShowUser(true)}>
+                  {shop.reccomendedBy.length}
+                </button>
+                people
+              </p>
+              <Modal onClose={() => setShowUser(false)} show={showUser} />
+
+              <ReviewBox>
+                <div>
+                  {shop.reviews?.map((review) => {
+                    const userReview = users?.find(
+                      (x) => x._id === review.userId
+                    );
+
+                    return (
+                      <>
+                        <ReviewContainer>
+                          <ReviewAvt src={userReview?.avatar}></ReviewAvt>
+                          <ReviewInfo>
+                            <p>{userReview?.firstnName} said:</p>
+                            {review.review}
+                          </ReviewInfo>
+                        </ReviewContainer>
+                      </>
+                    );
+                  })}
+                </div>
+
+                <CurrentUserAvt src={currentUser.avatar} />
+                <textarea
+                  onChange={handleChange}
                   type="text"
                   name="review"
                   placeholder="add your review here "
-                ></input>
-              </form>
-            </ReviewBox>
-            <Button>Social Media</Button>
-            <Button>Add a review</Button>
-            <Button>Add to my recommendation</Button>
-          </SubContainer>
-          <Img src={shop.img}></Img>
-        </Container>
-      </Wrapper>
+                  value={review}
+                ></textarea>
+              </ReviewBox>
+              <Button>Social Media</Button>
+              <Button onClick={handleClickReview}>Add a review</Button>
+              {(shop.reccomendedBy.length > 0 &&
+                shop.reccomendedBy.find((x) => x === currentUser._id)) ||
+              isReccomended ? (
+                <Button onClick={handleClickUnRec}>
+                  remove from my recommended
+                </Button>
+              ) : (
+                <Button onClick={handleClick}>add to my reccomendation </Button>
+              )}
+            </SubContainer>
+            <Img src={shop.img}></Img>
+          </Container>
+        </Wrapper>
+      )}
     </>
   );
 };
+
+const ReviewInfo = styled.div`
+  display: block;
+`;
+const ReviewContainer = styled.div`
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #d08c60;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+`;
+const ReviewAvt = styled.img`
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  margin-right: 5px;
+`;
+const CurrentUserAvt = styled.img`
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  margin-right: 5px;
+`;
 const ReviewBox = styled.div`
   border: 1px solid;
   border-radius: 10px;

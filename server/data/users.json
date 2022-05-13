@@ -1,0 +1,47 @@
+[
+  {
+    "firstnName": "Joey",
+    "lastName": "Tribiani",
+    "avatar": "/joey.jpeg",
+    "email": "joeytribiani@email.com",
+    "password": "123",
+    "reccomended": "",
+    "reviews": ""
+  },
+  {
+    "firstnName": "Rachel",
+    "lastName": "Green",
+    "avatar": "/Rachel.jpeg",
+    "email": "rachelgreen@email.com",
+    "password": "123",
+    "reccomended": "",
+    "reviews": ""
+  },
+  {
+    "firstnName": "Monica",
+    "lastName": "Geller",
+    "avatar": "/monica.jpeg",
+    "email": "monicageller@email.com",
+    "password": "123",
+    "reccomended": "",
+    "reviews": ""
+  },
+  {
+    "firstnName": "Ross",
+    "lastName": "Geller",
+    "avatar": "/Ross.jpeg",
+    "email": "rossgeller@email.com",
+    "password": "123",
+    "reccomended": "",
+    "reviews": ""
+  },
+  {
+    "firstnName": "Chandler",
+    "lastName": "Bing",
+    "avatar": "/chandler.jpeg",
+    "email": "chandlerbing@email.com",
+    "password": "123",
+    "reccomended": "",
+    "reviews": ""
+  }
+]

@@ -1,109 +1,138 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router";
 import styled from "styled-components";
-import {
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-} from "firebase/auth";
-import { auth } from "./firebase.config";
 
+import { UserContext } from "./userContext";
 const LogInPage = () => {
-  const [registerEmail, setRegisterEmail] = useState("");
-  const [registerPassword, setRegisterPassword] = useState("");
-  const [logInEmail, setLogInEmail] = useState("");
-  const [logInPassword, setLogInPassword] = useState("");
-  // const [user, setUser] = useState({});
+  const [newuser, setNewUser] = useState(null);
+  const [firstnName, setFirstnName] = useState(null);
+  const [lastName, setLastName] = useState(null);
+  const [avatar, setAvatar] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
+  const [reccomended, setReccomended] = useState(null);
+  const [reviews, setReviews] = useState(null);
+  const [nameSignIn, setNameSignIn] = useState("");
 
-  // onAuthStateChanged(auth, (currentUser) => {
-  //   setUser(currentUser);
-  // });
-  // fonction to register a new user
-  const register = async () => {
-    try {
-      const user = await createUserWithEmailAndPassword(
-        auth,
-        registerEmail,
-        registerPassword
-      );
-      console.log(user);
-    } catch (error) {
-      console.log(error.message);
-    }
+  const { currentUser, setCurrentUser } = useContext(UserContext);
+  let navigate = useNavigate();
+  const handleCreateNewUser = async (event) => {
+    event.preventDefault();
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        firstnName: firstnName,
+        lastName: lastName,
+        avatar: avatar,
+        email: email,
+        password: password,
+        reccomended: reccomended,
+        reviews: reviews,
+      }),
+    };
+    const response = await fetch("/signup/newuser", requestOptions);
+    const data = await response.json();
+    setNewUser(data);
+    console.log(data);
   };
 
-  //function to log in a user that already exist
-  const logIn = async () => {};
+  const handleChange = (e) => {
+    setNameSignIn(e.target.value);
+  };
+  const handleSignIn = (e) => {
+    e.preventDefault();
 
-  // function to log out of the website
-  const logOut = async () => {};
+    fetch("/users")
+      .then((res) => res.json())
+      .then((data) => {
+        const found = data.data.find((user) => {
+          localStorage.setItem("name", JSON.stringify(user));
+          return user.email.toLowerCase() === nameSignIn.toLocaleLowerCase();
+        });
+        if (found) {
+          setCurrentUser(found);
+
+          navigate(`/my-profile/${found._id}`);
+        } else {
+          //to do :
+          // setIsSignedIn("error");
+        }
+      });
+  };
+  console.log(currentUser);
   return (
     <>
+      <div>this is the log in page</div>
+      sign up
       <Container>
         <Form>
-          {/* <input type="text" placeholder="name"></input> */}
           <label>
-            email
+            <input
+              type="text"
+              placeholder="first name"
+              onChange={(event) => {
+                setFirstnName(event.target.value);
+              }}
+            ></input>
+          </label>
+          <label>
+            <input
+              type="text"
+              placeholder="last name"
+              onChange={(event) => {
+                setLastName(event.target.value);
+              }}
+            ></input>
+          </label>
+          <label>
             <input
               type="text"
               placeholder="email"
               onChange={(event) => {
-                setRegisterEmail(event.target.value);
+                setEmail(event.target.value);
               }}
             ></input>
           </label>
-          <label>
-            password
-            <input
-              type="text"
-              placeholder="password"
-              onChange={(event) => {
-                setRegisterPassword(event.target.value);
-              }}
-            ></input>
-          </label>
-          <button onClick={register} type="submit">
-            log in
-          </button>
+          <input
+            type="password"
+            placeholder="password"
+            onChange={(event) => {
+              setPassword(event.target.value);
+            }}
+          ></input>
+          <Button onClick={handleCreateNewUser}>sign up</Button>
         </Form>
-        <Form>
-          {/* <input type="text" placeholder="name"></input> */}
-          <label>
-            email
-            <input
-              type="text"
-              placeholder="email"
-              onChange={(event) => {
-                setLogInEmail(event.target.value);
-              }}
-            ></input>
-          </label>
-          <label>
-            password
-            <input
-              type="text"
-              placeholder="password"
-              onChange={(event) => {
-                setLogInPassword(event.target.value);
-              }}
-            ></input>
-          </label>
-          <button type="submit">sign up</button>
-        </Form>
-        <p>hi</p>
       </Container>
+      <div> already have an account? log in</div>
+      <form>
+        <label>
+          <input
+            type="text"
+            placeholder="email"
+            onChange={handleChange}
+          ></input>
+          <input type="password" placeholder="password"></input>
+          <Button onClick={handleSignIn}>log In</Button>
+        </label>
+      </form>
     </>
   );
 };
-
 const Container = styled.div`
   display: block;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
 `;
-
+const Button = styled.button`
+  background-color: #d08c60;
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  width: 75px;
+  color: white;
+  cursor: pointer;
+`;
 const Form = styled.form`
   display: block;
-  margin-top: 30px;
+  height: 100px;
 `;
-
 export default LogInPage;

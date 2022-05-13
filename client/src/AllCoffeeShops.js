@@ -1,19 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { UserContext } from "./userContext";
 
 const AllCoffeeShops = () => {
-  const [coffeeShops, setCoffeeShops] = useState(null);
-  useEffect(() => {
-    const coffeeShops = async () => {
-      const response = await fetch("/coffeeshop");
-      const data = await response.json();
-
-      setCoffeeShops(data.data);
-      console.log(data.data);
-    };
-    coffeeShops();
-  }, []);
+  const { coffeeShops } = useContext(UserContext);
   if (!coffeeShops) {
     return <div>...loading</div>;
   }

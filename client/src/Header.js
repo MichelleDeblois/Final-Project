@@ -1,25 +1,36 @@
-import React, { useReducer } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
+import { UserContext } from "./userContext";
 const Header = () => {
+  const { currentUser } = useContext(UserContext);
+  console.log("hello", currentUser);
   return (
     <>
       <Container>
-        <Link to="/">
+        <Link to="/" style={{ textDecoration: "none" }}>
           <Title>My Cup of Coffee</Title>
         </Link>
-        <Link to="/login">
-          <span>login / signup</span>
-          <span>hi </span>
+        <Link to={currentUser ? `/my-profile/${currentUser._id}` : "/login"}>
+          <LogInButton>
+            {currentUser ? currentUser.firstnName : "Sign in!!"}
+          </LogInButton>
         </Link>
       </Container>
     </>
   );
 };
 
+const LogInButton = styled.p`
+  color: white;
+  font-size: 20px;
+  margin-right: 10px;
+`;
+
 const Title = styled.h1`
   color: white;
+  margin-left: 10px;
 `;
 const Container = styled.div`
   display: flex;

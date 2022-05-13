@@ -2,7 +2,17 @@
 const express = require("express");
 const morgan = require("morgan");
 
-const { getCoffee, getSingleCoffeeShop } = require("./handlers");
+const {
+  getCoffee,
+  getSingleCoffeeShop,
+  getProfilePage,
+  addUser,
+  getUsers,
+  addReccomendation,
+  removeReccomendation,
+  addReview,
+  getFollowingUser,
+} = require("./handlers");
 
 const PORT = 4000;
 
@@ -26,6 +36,12 @@ express()
 
   .get("/coffeeshop", getCoffee)
   .get("/coffeeshop/:_id", getSingleCoffeeShop)
-  // .patch("/cofeeshop/:_id", addReview )
+  .get("/profile/:_id", getProfilePage)
+  .post("/signup/newuser", addUser)
+  .get("/users", getUsers)
+  .patch("/coffeeshop/:_id", addReccomendation)
+  .patch("/coffeeshop/remove/:_id", removeReccomendation)
+  .patch("/coffeeshop/review/:_id", addReview)
+  .get("/feed/:_id", getFollowingUser)
 
   .listen(PORT, () => console.info(`Listening on port ${PORT}`));

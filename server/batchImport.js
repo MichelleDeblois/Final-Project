@@ -26,4 +26,21 @@ const batchImport = async () => {
   item.close();
 };
 
+const users = JSON.parse(fs.readFileSync("data/users.json"));
+const batchImportUser = async () => {
+  const item = await new MongoClient(MONGO_URI, options);
+
+  try {
+    await item.connect();
+    const db = item.db("mcoc");
+
+    await db.collection("users").insertMany(users);
+  } catch (err) {
+    console.log(err);
+  }
+  console.log("success!");
+  item.close();
+};
+
+batchImportUser();
 batchImport();
