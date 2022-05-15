@@ -8,6 +8,7 @@ const FeedPage = () => {
   const { _id } = useParams();
   const [userFollowing, setUserFollowing] = useState(null);
   const [showFriendsRec, setShowFriendsRec] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState(null);
 
   //Fetch the users
   useEffect(() => {
@@ -19,7 +20,7 @@ const FeedPage = () => {
     };
     findItem();
   }, []);
-  if (!userFollowing) {
+  if (!userFollowing || !users) {
     return <div>...loading</div>;
   }
 
@@ -28,24 +29,32 @@ const FeedPage = () => {
       <h1> See what your friends are reccomending</h1>
       {userFollowing.following?.map((user) => {
         const followingInfo = users?.find((x) => x._id === user);
-        console.log("followers", followingInfo);
+
         return (
           <div>
             <Img src={followingInfo?.avatar}></Img>
             {followingInfo?.firstnName} {followingInfo?.lastName} is
             recomending:{" "}
-            <button onClick={() => setShowFriendsRec(true)}>
-              {userFollowing.reccomended.length}
+            <button
+              onClick={() => {
+                setShowFriendsRec(true);
+                setSelectedUserId(followingInfo._id);
+              }}
+            >
+              {followingInfo?.reccomended.length}
             </button>
             coffee shops
-            <button>see {followingInfo.firstnName}'s profile</button>
-            <ModalRecFriends
-              onClose={() => setShowFriendsRec(false)}
-              show={showFriendsRec}
-            />
+            <button>see {followingInfo?.firstnName}'s profile</button>
           </div>
         );
       })}
+      {showFriendsRec && (
+        <ModalRecFriends
+          onClose={() => setShowFriendsRec(false)}
+          show={showFriendsRec}
+          userId={selectedUserId}
+        />
+      )}
     </div>
   );
 };

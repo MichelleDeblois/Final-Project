@@ -11,6 +11,7 @@ const CoffeeShopPage = () => {
   const [isReccomended, setIsReccomended] = useState(false);
   const [showUser, setShowUser] = useState(false);
   const [review, setReview] = useState("");
+  const [reviewArr, setReviewArr] = useState([]);
   // TO FETCH THE SINGLE COFFEESHOP
   useEffect(() => {
     const findItem = async () => {
@@ -18,6 +19,7 @@ const CoffeeShopPage = () => {
       const data = await response.json();
 
       setShop(data.data);
+      setReviewArr(data.data.reviews);
     };
     findItem();
   }, []);
@@ -63,6 +65,9 @@ const CoffeeShopPage = () => {
   // TO POST A REVIEW
 
   const handleReview = () => {
+    setReviewArr((previous) => {
+      return [...previous, { review, userId: currentUser._id }];
+    });
     const requestOptions = {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -81,10 +86,6 @@ const CoffeeShopPage = () => {
     setReview(event.target.value);
   };
 
-  const handleClickReview = () => {
-    console.log(review);
-    handleReview();
-  };
   if (!shop && !users) {
     return <div>...loading</div>;
   }
@@ -107,7 +108,7 @@ const CoffeeShopPage = () => {
                 referrerPolicy="no-referrer-when-downgrade"
                 src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyDBuSQ_yYIWjvtH8qF7YcCBkIcjkqljhBo&q=${query}`}
               ></iframe>
-              <p>this coffee shop has {shop.numofReview} reviews</p>
+              <p>this coffee shop has {shop.reviews.length} reviews</p>
               <p>
                 the coffee shop has been recommended by{" "}
                 <button onClick={() => setShowUser(true)}>
@@ -119,7 +120,7 @@ const CoffeeShopPage = () => {
 
               <ReviewBox>
                 <div>
-                  {shop.reviews?.map((review) => {
+                  {reviewArr?.map((review) => {
                     const userReview = users?.find(
                       (x) => x._id === review.userId
                     );
@@ -138,7 +139,7 @@ const CoffeeShopPage = () => {
                   })}
                 </div>
 
-                <CurrentUserAvt src={currentUser.avatar} />
+                <CurrentUserAvt src={currentUser?.avatar} />
                 <textarea
                   onChange={handleChange}
                   type="text"
@@ -148,9 +149,9 @@ const CoffeeShopPage = () => {
                 ></textarea>
               </ReviewBox>
               <Button>Social Media</Button>
-              <Button onClick={handleClickReview}>Add a review</Button>
+              <Button onClick={handleReview}>Add a review</Button>
               {(shop.reccomendedBy.length > 0 &&
-                shop.reccomendedBy.find((x) => x === currentUser._id)) ||
+                shop.reccomendedBy.find((x) => x === currentUser?._id)) ||
               isReccomended ? (
                 <Button onClick={handleClickUnRec}>
                   remove from my recommended

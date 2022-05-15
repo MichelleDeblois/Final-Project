@@ -7,20 +7,56 @@ import { UserContext } from "./userContext";
 const ProfilePage = () => {
   const { _id } = useParams();
   const [user, setUser] = useState(null);
-  const [recommendation, setRecomendation] = useState(null);
-  const { coffeeShops, currentUser } = useContext(UserContext);
-  console.log(user);
-  const coffee = useEffect(() => {
+
+  const [isFriend, setIsFriend] = useState(false);
+  const { coffeeShops, currentUser, users } = useContext(UserContext);
+
+  useEffect(() => {
     const findUser = async () => {
       const response = await fetch(`/profile/${_id}`);
       const data = await response.json();
-      console.log(data);
+
       setUser(data.data);
     };
-
     findUser();
   }, []);
-  if (!user) {
+  // FUNCTION TO ADD AS FRIEND
+  const handleAddFriend = () => {
+    const requestOptions = {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId: currentUser._id }),
+    };
+
+    fetch(`/profile/addfriend/${_id}`, requestOptions)
+      .then((response) => response.json())
+      .then((data) => {});
+  };
+
+  const handleClick = () => {
+    setIsFriend(true);
+    handleAddFriend();
+  };
+
+  // TO REMOVE FROM THE FOLLOWING LIST
+  const handleUnFriend = () => {
+    const requestOptions = {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId: currentUser._id }),
+    };
+
+    fetch(`/profile/removefriend/${_id}`, requestOptions)
+      .then((response) => response.json())
+      .then((data) => {});
+  };
+
+  const handleClickUnFriend = () => {
+    setIsFriend(false);
+    handleUnFriend();
+  };
+
+  if (!user || !currentUser) {
     return <div>...loading</div>;
   }
   return (
@@ -33,13 +69,18 @@ const ProfilePage = () => {
               {user.firstnName}
               {user.lastName}
             </h1>
+            {(currentUser.following.length > 0 &&
+              currentUser.following.find((x) => x === user?._id)) ||
+            isFriend ? (
+              <Button onClick={handleClickUnFriend}>Unfollow</Button>
+            ) : (
+              <Button onClick={handleClick}>follow </Button>
+            )}
 
-            <Button>add friends</Button>
             <Button>see {user.firstnName}'s friends</Button>
             <p>{user.firstnName}'s recommendation :</p>
             <p>
               {user.reccomended?.map((rec) => {
-                console.log(coffeeShops);
                 const selectedCoffeeShop = coffeeShops?.find(
                   (x) => x._id === rec
                 );

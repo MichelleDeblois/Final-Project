@@ -6,18 +6,30 @@ import { Link } from "react-router-dom";
 
 const ModalRecFriends = (props) => {
   const { coffeeShops, users } = useContext(UserContext);
-  const [friendsRec, setFriendsRec] = useState(null);
-  const { _id } = useParams();
-  useEffect(() => {
-    const findItem = async () => {
-      const response = await fetch(`/profile/${_id}`);
-      const data = await response.json();
+  const [reccomendations, setReccomendations] = useState(null);
 
-      setFriendsRec(data.data);
+  useEffect(() => {
+    const getReccomendationForUser = async () => {
+      const response = await fetch(`/feed/${props.userId}`);
+      const data = await response.json();
+      const reccomededIds = data.data.reccomended;
+
+      const reccomendationsArr = coffeeShops.filter((coffeeShop) => {
+        console.log({
+          coffeeShop,
+          isIncluded: reccomededIds.includes(coffeeShop._id),
+        });
+        if (reccomededIds.includes(coffeeShop._id)) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+      setReccomendations(reccomendationsArr);
     };
-    findItem();
-  }, []);
-  if (!friendsRec) {
+    getReccomendationForUser();
+  }, [props.show]);
+  if (!reccomendations) {
     return <div>...loading</div>;
   }
   if (!props.show) {
@@ -28,15 +40,13 @@ const ModalRecFriends = (props) => {
     <>
       <ModalContainer onClick={props.onClose}>
         <ModalContent onClick={(e) => e.stopPropagation()}>
-          {friendsRec.reccomended?.map((user) => {
-            const recInfo = coffeeShops?.find((x) => x._id === user);
-
+          {reccomendations?.map((coffeeShop) => {
             return (
               <>
-                <Link to={`/coffee/${recInfo._id}`}>
+                <Link to={`/coffee/${coffeeShop?._id}`}>
                   <CoffeeInfo>
-                    <Img src={recInfo.img}></Img>
-                    <p>{recInfo?.name}</p>
+                    <Img src={coffeeShop?.img}></Img>
+                    <p>{coffeeShop?.name}</p>
                   </CoffeeInfo>
                 </Link>
               </>

@@ -14,7 +14,6 @@ const AllCoffeeShops = () => {
         <h1>Find your perfect cup of coffee</h1>
       </Title>
       {coffeeShops.map((coffeeShop) => {
-        console.log();
         return (
           <>
             <Wrapper>

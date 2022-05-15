@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const Modal = (props) => {
   const { coffeeShops, users } = useContext(UserContext);
-  const [shop, setShop] = useState(null);
+  const [shop, setShop] = useState([]);
   const { _id } = useParams();
   useEffect(() => {
     const findItem = async () => {

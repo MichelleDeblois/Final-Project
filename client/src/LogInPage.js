@@ -7,12 +7,13 @@ const LogInPage = () => {
   const [newuser, setNewUser] = useState(null);
   const [firstnName, setFirstnName] = useState(null);
   const [lastName, setLastName] = useState(null);
-  const [avatar, setAvatar] = useState(null);
+  const [avatar, setAvatar] = useState("");
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
-  const [reccomended, setReccomended] = useState(null);
-  const [reviews, setReviews] = useState(null);
+  const [reccomended, setReccomended] = useState([]);
+  const [reviews, setReviews] = useState([]);
   const [nameSignIn, setNameSignIn] = useState("");
+  const [following, setFollowing] = useState([]);
 
   const { currentUser, setCurrentUser } = useContext(UserContext);
   let navigate = useNavigate();
@@ -29,12 +30,14 @@ const LogInPage = () => {
         password: password,
         reccomended: reccomended,
         reviews: reviews,
+        following: following,
       }),
     };
     const response = await fetch("/signup/newuser", requestOptions);
     const data = await response.json();
     setNewUser(data);
-    console.log(data);
+    setCurrentUser(data.data);
+    localStorage.setItem("name", JSON.stringify(currentUser));
   };
 
   const handleChange = (e) => {
@@ -60,7 +63,7 @@ const LogInPage = () => {
         }
       });
   };
-  console.log(currentUser);
+
   return (
     <>
       <div>this is the log in page</div>

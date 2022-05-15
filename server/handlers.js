@@ -128,7 +128,6 @@ const addReccomendation = async (req, res) => {
       .collection("users")
       .updateOne({ _id: ObjectId(userId) }, newValue2);
 
-    // console.log(reccomended);
     return res
       .status(200)
       .json({ status: 200, data: { reccomended, reccomended2 } });
@@ -140,7 +139,7 @@ const addReccomendation = async (req, res) => {
     client.close();
   }
 };
-
+// UNRECCOMEND A COFFEE SHOP
 const removeReccomendation = async (req, res) => {
   const client = await new MongoClient(MONGO_URI, options);
   const userId = req.body.userId;
@@ -202,6 +201,7 @@ const removeReccomendation = async (req, res) => {
   }
 };
 
+// ADD A REVIEW
 const addReview = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   const userId = req.body.userId;
@@ -234,7 +234,7 @@ const addReview = async (req, res) => {
     client.close();
   }
 };
-
+// GET WHO THE CURRENT USER FOLLOWS
 const getFollowingUser = async (req, res) => {
   const id = req.params._id;
   const client = await new MongoClient(MONGO_URI, options);
@@ -249,6 +249,77 @@ const getFollowingUser = async (req, res) => {
   });
 };
 
+const addfriend = async (req, res) => {
+  const client = await new MongoClient(MONGO_URI, options);
+  const userId = req.body.userId;
+  const friendId = req.params._id;
+
+  try {
+    await client.connect();
+    const db = client.db("mcoc");
+    //updating CURRENT USER
+    const updateCurrentUserFriendsList = await db
+      .collection("users")
+      .findOne({ _id: ObjectId(userId) });
+    console.log(updateCurrentUserFriendsList);
+    const newFriendsList = {
+      $set: {
+        following: [...updateCurrentUserFriendsList.following, friendId],
+      },
+    };
+    const followed = await db
+      .collection("users")
+      .updateOne({ _id: ObjectId(userId) }, newFriendsList);
+    console.log(followed);
+    return res.status(200).json({ status: 200, data: { followed } });
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ status: 500, data: req.body, message: err.message });
+  } finally {
+    client.close();
+  }
+};
+const removefriend = async (req, res) => {
+  const client = await new MongoClient(MONGO_URI, options);
+  const userId = req.body.userId;
+  const friendId = req.params._id;
+
+  try {
+    await client.connect();
+    const db = client.db("mcoc");
+
+    //updating CURRENT USER
+    const currentUser = await db
+      .collection("users")
+      .findOne({ _id: ObjectId(userId) });
+
+    const filteredUserFollowing = currentUser.following.filter((e) => {
+      return e !== friendId;
+    });
+    const newUserFollowing = {
+      $set: {
+        following: filteredUserFollowing,
+      },
+    };
+
+    const updateUser = await db
+      .collection("users")
+      .updateOne({ _id: ObjectId(userId) }, newUserFollowing);
+
+    return res.status(200).json({
+      status: 200,
+      data: { following: updateUser },
+    });
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ status: 500, data: req.body, message: err.message });
+  } finally {
+    client.close();
+  }
+};
+
 module.exports = {
   getCoffee,
   getSingleCoffeeShop,
@@ -259,4 +330,6 @@ module.exports = {
   removeReccomendation,
   addReview,
   getFollowingUser,
+  addfriend,
+  removefriend,
 };

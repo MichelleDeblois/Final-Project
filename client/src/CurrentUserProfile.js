@@ -8,13 +8,13 @@ const CurrentUserProfile = () => {
   const { _id } = useParams();
   const [user, setUser] = useState(null);
   const [recommendation, setRecomendation] = useState(null);
-  const { coffeeShops, currentUser } = useContext(UserContext);
-  console.log(user);
-  const coffee = useEffect(() => {
+  const { coffeeShops, currentUser, users } = useContext(UserContext);
+
+  useEffect(() => {
     const findUser = async () => {
       const response = await fetch(`/profile/${_id}`);
       const data = await response.json();
-      console.log(data);
+
       setUser(data.data);
     };
 
@@ -23,11 +23,16 @@ const CurrentUserProfile = () => {
   if (!user) {
     return <div>...loading</div>;
   }
+  console.log(user.avatar);
   return (
     <>
       <Wrapper>
         <Container>
-          <Img src={user.avatar}></Img>
+          {user.avatar.length > 0 ? (
+            <Img src={user.avatar}></Img>
+          ) : (
+            <button>add image</button>
+          )}
           <SubContainer>
             <h1>
               {user.firstnName}
@@ -37,12 +42,12 @@ const CurrentUserProfile = () => {
               <Button>see my friend's reccomendation</Button>
             </Link>
             <p> My recommendation :</p>
-            <p>
+            <div>
               {user.reccomended?.map((rec) => {
-                console.log(coffeeShops);
                 const selectedCoffeeShop = coffeeShops?.find(
                   (x) => x._id === rec
                 );
+
                 return (
                   <Link
                     to={`/coffee/${selectedCoffeeShop?._id}`}
@@ -55,7 +60,7 @@ const CurrentUserProfile = () => {
                   </Link>
                 );
               })}
-            </p>
+            </div>
           </SubContainer>
         </Container>
       </Wrapper>

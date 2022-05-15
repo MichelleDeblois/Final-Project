@@ -12,6 +12,8 @@ const {
   removeReccomendation,
   addReview,
   getFollowingUser,
+  addfriend,
+  removefriend,
 } = require("./handlers");
 
 const PORT = 4000;
@@ -43,5 +45,7 @@ express()
   .patch("/coffeeshop/remove/:_id", removeReccomendation)
   .patch("/coffeeshop/review/:_id", addReview)
   .get("/feed/:_id", getFollowingUser)
+  .patch("/profile/addfriend/:_id", addfriend)
+  .patch("/profile/removefriend/:_id", removefriend)
 
   .listen(PORT, () => console.info(`Listening on port ${PORT}`));

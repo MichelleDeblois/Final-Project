@@ -43,7 +43,5 @@ const App = () => {
 
 const Main = styled.div`
   font-family: "Abel", sans-serif;
-
-  text-decoration: none;
 `;
 export default App;

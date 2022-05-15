@@ -12,7 +12,6 @@ export const UserProvider = ({ children }) => {
       const data = await response.json();
 
       setCoffeeShops(data.data);
-      console.log(data.data);
     };
     coffeeShops();
   }, []);
@@ -23,14 +22,12 @@ export const UserProvider = ({ children }) => {
       const data = await response.json();
 
       setUsers(data.data);
-      console.log(data.data);
     };
     users();
   }, []);
 
   useEffect(() => {
     const saved = localStorage.getItem("name");
-    setCurrentUser(JSON.parse(saved));
   }, []);
 
   return (
