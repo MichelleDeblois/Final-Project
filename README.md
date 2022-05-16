@@ -2,6 +2,10 @@
 
 My Cup of Coffee is a social media platform where users can discover new coffee shop in Montreal through their friends reccomendation.
 
+This project is submitted to Concordia university for my final project of the web development Bootcamp on May 22, 2022.
+
+## Screen shot
+
 
 ## Technologies
  * React Frontend (creat-react-app)
