@@ -14,6 +14,7 @@ This project is submitted to Concordia university for my final project of the we
 <img src='client/public/FriendsRec.jpg' style='width:100%' />
 <img src='client/public/FriendsRecModal.jpg' style='width:100%' />
 <img src='client/public/userProfile.jpg' style='width:100%' />
+
 ## Technologies
 
 - React Frontend (creat-react-app)
