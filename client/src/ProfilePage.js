@@ -66,8 +66,7 @@ const ProfilePage = () => {
           <Img src={user.avatar}></Img>
           <SubContainer>
             <h1>
-              {user.firstnName}
-              {user.lastName}
+              {user.firstnName} {user.lastName}
             </h1>
             {(currentUser.following.length > 0 &&
               currentUser.following.find((x) => x === user?._id)) ||

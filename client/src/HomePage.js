@@ -30,14 +30,14 @@ const HomePage = () => {
   return (
     <>
       <Container>
-        <Title>See all our Coffee shop in Montreal</Title>
+        <Title>See all our Coffee Shops in Montreal</Title>
       </Container>
       <Wrapper>
         <Link to="/allCoffeeShops" style={{ textDecoration: "none" }}>
           <Button>Coffee Shops</Button>
         </Link>
       </Wrapper>
-      <Title>Popular coffee shop</Title>
+      <Title>Popular Coffee shops</Title>
       <SubContainer>
         {newArray.map((coffeeShop) => {
           return (

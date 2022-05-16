@@ -33,7 +33,10 @@ const Modal = (props) => {
 
             return (
               <>
-                <Link to={`/profile/${userReccomend._id}`}>
+                <Link
+                  to={`/profile/${userReccomend._id}`}
+                  style={{ textDecoration: "none" }}
+                >
                   <UserInfo>
                     <Img src={userReccomend.avatar}></Img>
                     <p>{userReccomend?.firstnName}</p>
@@ -44,12 +47,22 @@ const Modal = (props) => {
             );
           })}
 
-          <button onClick={props.onClose}>close</button>
+          <CloseButton onClick={props.onClose}>close</CloseButton>
         </ModalContent>
       </ModalContainer>
     </>
   );
 };
+
+const CloseButton = styled.button`
+  background-color: #d08c60;
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  width: 75px;
+  color: white;
+  cursor: pointer;
+`;
 const LastName = styled.span`
   margin-left: 5px;
 `;
@@ -58,6 +71,7 @@ const UserInfo = styled.div`
   border-bottom: 1px solid #d08c60;
   margin-bottom: 10px;
   align-items: center;
+  color: black;
 `;
 const Img = styled.img`
   width: 45px;

@@ -35,8 +35,7 @@ const CurrentUserProfile = () => {
           )}
           <SubContainer>
             <h1>
-              {user.firstnName}
-              {user.lastName}
+              {user.firstnName} {user.lastName}
             </h1>
             <Link to={`/feed/${_id}`}>
               <Button>see my friend's reccomendation</Button>

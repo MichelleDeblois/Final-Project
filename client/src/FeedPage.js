@@ -25,27 +25,35 @@ const FeedPage = () => {
   }
 
   return (
-    <div>
-      <h1> See what your friends are reccomending</h1>
+    <Wrapper>
+      <h1> People you are following are reccomending</h1>
       {userFollowing.following?.map((user) => {
         const followingInfo = users?.find((x) => x._id === user);
 
         return (
-          <div>
-            <Img src={followingInfo?.avatar}></Img>
-            {followingInfo?.firstnName} {followingInfo?.lastName} is
-            recomending:{" "}
-            <button
-              onClick={() => {
-                setShowFriendsRec(true);
-                setSelectedUserId(followingInfo._id);
-              }}
-            >
-              {followingInfo?.reccomended.length}
-            </button>
-            coffee shops
-            <button>see {followingInfo?.firstnName}'s profile</button>
-          </div>
+          <>
+            <Container>
+              <Img src={followingInfo?.avatar}></Img>
+              <SubContainer>
+                <Info>
+                  {followingInfo?.firstnName} {followingInfo?.lastName} is
+                  recomending:
+                  <UserReccomendButton
+                    onClick={() => {
+                      setShowFriendsRec(true);
+                      setSelectedUserId(followingInfo._id);
+                    }}
+                  >
+                    {followingInfo?.reccomended.length}
+                  </UserReccomendButton>
+                  Coffee Shops
+                </Info>
+                <ProfileButton>
+                  see {followingInfo?.firstnName}'s profile
+                </ProfileButton>
+              </SubContainer>
+            </Container>
+          </>
         );
       })}
       {showFriendsRec && (
@@ -55,11 +63,55 @@ const FeedPage = () => {
           userId={selectedUserId}
         />
       )}
-    </div>
+    </Wrapper>
   );
 };
+
+const UserReccomendButton = styled.button`
+  background-color: white;
+  border: none;
+  color: #d08c60;
+  cursor: pointer;
+`;
+const Info = styled.span`
+  margin-bottom: 10px;
+`;
+const ProfileButton = styled.button`
+  background-color: #d08c60;
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  margin-left: 5px;
+  color: white;
+  cursor: pointer;
+  margin-bottom: 10px;
+  width: 200px;
+`;
+const Wrapper = styled.div`
+  display: grid;
+  justify-content: center;
+`;
+const SubContainer = styled.div`
+  display: grid;
+  justify-content: center;
+  margin-left: 10px;
+`;
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #d08c60;
+  margin-top: 20px;
+  padding-top: 40px;
+  padding-left: 50px;
+  padding-bottom: 40px;
+  padding-right: 50px;
+  border-radius: 20px;
+  width: 450px;
+`;
 const Img = styled.img`
   width: 100px;
   border-radius: 50%;
+  height: 100px;
 `;
 export default FeedPage;

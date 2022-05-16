@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { UserContext } from "./userContext";
 import Modal from "./Modal";
@@ -110,10 +110,10 @@ const CoffeeShopPage = () => {
               ></iframe>
               <p>this coffee shop has {shop.reviews.length} reviews</p>
               <p>
-                the coffee shop has been recommended by{" "}
-                <button onClick={() => setShowUser(true)}>
+                the coffee shop has been recommended by
+                <ReccomendedByButton onClick={() => setShowUser(true)}>
                   {shop.reccomendedBy.length}
-                </button>
+                </ReccomendedByButton>
                 people
               </p>
               <Modal onClose={() => setShowUser(false)} show={showUser} />
@@ -128,9 +128,25 @@ const CoffeeShopPage = () => {
                     return (
                       <>
                         <ReviewContainer>
-                          <ReviewAvt src={userReview?.avatar}></ReviewAvt>
+                          <Link
+                            to={`/profile/${userReview?._id}`}
+                            style={{ textDecoration: "none" }}
+                          >
+                            <ReviewAvt src={userReview?.avatar}></ReviewAvt>
+                          </Link>
                           <ReviewInfo>
-                            <p>{userReview?.firstnName} said:</p>
+                            <p>
+                              <Link
+                                to={`/profile/${userReview?._id}`}
+                                style={{
+                                  textDecoration: "none",
+                                  color: "black",
+                                }}
+                              >
+                                {userReview?.firstnName}
+                              </Link>{" "}
+                              said:
+                            </p>
                             {review.review}
                           </ReviewInfo>
                         </ReviewContainer>
@@ -140,13 +156,13 @@ const CoffeeShopPage = () => {
                 </div>
 
                 <CurrentUserAvt src={currentUser?.avatar} />
-                <textarea
+                <ReviewText
                   onChange={handleChange}
                   type="text"
                   name="review"
                   placeholder="add your review here "
                   value={review}
-                ></textarea>
+                ></ReviewText>
               </ReviewBox>
               <Button>Social Media</Button>
               <Button onClick={handleReview}>Add a review</Button>
@@ -167,7 +183,17 @@ const CoffeeShopPage = () => {
     </>
   );
 };
-
+const ReviewText = styled.textarea`
+  border: none;
+  width: 300px;
+  height: 50px;
+`;
+const ReccomendedByButton = styled.button`
+  background-color: white;
+  border: none;
+  color: #d08c60;
+  cursor: pointer;
+`;
 const ReviewInfo = styled.div`
   display: block;
 `;

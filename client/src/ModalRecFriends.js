@@ -43,7 +43,10 @@ const ModalRecFriends = (props) => {
           {reccomendations?.map((coffeeShop) => {
             return (
               <>
-                <Link to={`/coffee/${coffeeShop?._id}`}>
+                <Link
+                  to={`/coffee/${coffeeShop?._id}`}
+                  style={{ textDecoration: "none" }}
+                >
                   <CoffeeInfo>
                     <Img src={coffeeShop?.img}></Img>
                     <p>{coffeeShop?.name}</p>
@@ -53,18 +56,29 @@ const ModalRecFriends = (props) => {
             );
           })}
 
-          <button onClick={props.onClose}>close</button>
+          <CloseButton onClick={props.onClose}>close</CloseButton>
         </ModalContent>
       </ModalContainer>
     </>
   );
 };
 
+const CloseButton = styled.button`
+  background-color: #d08c60;
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  width: 75px;
+  color: white;
+  cursor: pointer;
+`;
+
 const CoffeeInfo = styled.div`
   display: flex;
   border-bottom: 1px solid #d08c60;
   margin-bottom: 10px;
   align-items: center;
+  color: black;
 `;
 const Img = styled.img`
   width: 45px;
