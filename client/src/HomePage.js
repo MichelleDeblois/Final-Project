@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 const HomePage = () => {
   const [coffeeShops, setCoffeeShops] = useState(null);
-
+  // TO SHOW THE POPULAR COFFEE SHOPS
   useEffect(() => {
     const coffeeShops = async () => {
       const response = await fetch("/coffeeshop");

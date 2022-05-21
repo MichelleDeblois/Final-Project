@@ -9,7 +9,7 @@ const CurrentUserProfile = () => {
   const [user, setUser] = useState(null);
   const [recommendation, setRecomendation] = useState(null);
   const { coffeeShops, currentUser, users } = useContext(UserContext);
-
+  // TO FIND THE CURRENT USER INFO
   useEffect(() => {
     const findUser = async () => {
       const response = await fetch(`/profile/${_id}`);
@@ -23,7 +23,7 @@ const CurrentUserProfile = () => {
   if (!user) {
     return <div>...loading</div>;
   }
-  console.log(user.avatar);
+
   return (
     <>
       <Wrapper>

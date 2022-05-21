@@ -187,7 +187,6 @@ const removeReccomendation = async (req, res) => {
       .collection("users")
       .updateOne({ _id: ObjectId(userId) }, newUserReccomended);
 
-    // console.log(reccomended);
     return res.status(200).json({
       status: 200,
       data: { reccomended: updateCoffeeShop, reccomended2: updateUser },
@@ -261,7 +260,7 @@ const addfriend = async (req, res) => {
     const updateCurrentUserFriendsList = await db
       .collection("users")
       .findOne({ _id: ObjectId(userId) });
-    console.log(updateCurrentUserFriendsList);
+
     const newFriendsList = {
       $set: {
         following: [...updateCurrentUserFriendsList.following, friendId],
@@ -270,7 +269,7 @@ const addfriend = async (req, res) => {
     const followed = await db
       .collection("users")
       .updateOne({ _id: ObjectId(userId) }, newFriendsList);
-    console.log(followed);
+
     return res.status(200).json({ status: 200, data: { followed } });
   } catch (err) {
     return res

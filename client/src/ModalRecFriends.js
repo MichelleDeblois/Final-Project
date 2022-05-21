@@ -3,7 +3,7 @@ import { useParams } from "react-router";
 import { UserContext } from "./userContext";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-
+//MODAL TO SEE THE COFFEE SHOP SOMEONE YOU ARE FOLLOWING IS RECCOMENDING
 const ModalRecFriends = (props) => {
   const { coffeeShops, users } = useContext(UserContext);
   const [reccomendations, setReccomendations] = useState(null);
@@ -15,10 +15,6 @@ const ModalRecFriends = (props) => {
       const reccomededIds = data.data.reccomended;
 
       const reccomendationsArr = coffeeShops.filter((coffeeShop) => {
-        console.log({
-          coffeeShop,
-          isIncluded: reccomededIds.includes(coffeeShop._id),
-        });
         if (reccomededIds.includes(coffeeShop._id)) {
           return true;
         } else {

@@ -1,16 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import ModalRecFriends from "./ModalRecFriends";
 import { UserContext } from "./userContext";
 const FeedPage = () => {
   const { currentUser, users, coffeeShops } = useContext(UserContext);
+
   const { _id } = useParams();
   const [userFollowing, setUserFollowing] = useState(null);
   const [showFriendsRec, setShowFriendsRec] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
 
-  //Fetch the users
+  //FETCH THE USERS YOU FOLLOW
   useEffect(() => {
     const findItem = async () => {
       const response = await fetch(`/feed/${_id}`);
@@ -48,6 +50,7 @@ const FeedPage = () => {
                   </UserReccomendButton>
                   Coffee Shops
                 </Info>
+
                 <ProfileButton>
                   see {followingInfo?.firstnName}'s profile
                 </ProfileButton>

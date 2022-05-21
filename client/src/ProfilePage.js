@@ -10,7 +10,7 @@ const ProfilePage = () => {
 
   const [isFriend, setIsFriend] = useState(false);
   const { coffeeShops, currentUser, users } = useContext(UserContext);
-
+  //ANY OTHER USER PROFILE
   useEffect(() => {
     const findUser = async () => {
       const response = await fetch(`/profile/${_id}`);

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { UserContext } from "./userContext";
-
+// this page will show all of the coffee shops in the website
 const AllCoffeeShops = () => {
   const { coffeeShops } = useContext(UserContext);
   if (!coffeeShops) {
@@ -21,7 +21,7 @@ const AllCoffeeShops = () => {
                 <Img src={coffeeShop.img}></Img>
                 <SubContainer>
                   <h2>{coffeeShop.name}</h2>
-                  <p>recommended by {coffeeShop.numofRec} user</p>
+                  <p>recommended by {coffeeShop.reccomendedBy.length} user</p>
                   <Link to={`/coffee/${coffeeShop._id}`}>
                     <Button>see full details</Button>
                   </Link>

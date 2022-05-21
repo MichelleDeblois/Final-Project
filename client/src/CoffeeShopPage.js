@@ -80,7 +80,9 @@ const CoffeeShopPage = () => {
 
     fetch(`/coffeeshop/review/${_id}`, requestOptions)
       .then((response) => response.json())
-      .then((data) => {});
+      .then((data) => {
+        setReview("");
+      });
   };
   const handleChange = (event) => {
     setReview(event.target.value);

@@ -3,11 +3,12 @@ import { useParams } from "react-router";
 import { UserContext } from "./userContext";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-
+// MODAL TO SHOW WHO IS RECCOMENDING A COFFEE SHOP
 const Modal = (props) => {
   const { coffeeShops, users } = useContext(UserContext);
   const [shop, setShop] = useState([]);
   const { _id } = useParams();
+
   useEffect(() => {
     const findItem = async () => {
       const response = await fetch(`/coffeeshop/${_id}`);

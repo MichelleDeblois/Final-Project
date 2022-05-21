@@ -5,7 +5,7 @@ export const UserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [coffeeShops, setCoffeeShops] = useState(null);
   const [users, setUsers] = useState(null);
-
+  // FETCH COFFEESHOPS
   useEffect(() => {
     const coffeeShops = async () => {
       const response = await fetch("/coffeeshop");
@@ -15,7 +15,7 @@ export const UserProvider = ({ children }) => {
     };
     coffeeShops();
   }, []);
-
+  //FETCH THE USERS
   useEffect(() => {
     const users = async () => {
       const response = await fetch("/users");
@@ -25,7 +25,7 @@ export const UserProvider = ({ children }) => {
     };
     users();
   }, []);
-
+  //LOCAL STORAGE
   useEffect(() => {
     const saved = localStorage.getItem("name");
   }, []);

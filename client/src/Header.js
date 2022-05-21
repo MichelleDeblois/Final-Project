@@ -6,7 +6,7 @@ import { UserContext } from "./userContext";
 const Header = () => {
   const [userLogOut, setUserLogOut] = useState(null);
   const { currentUser, setCurrentUser, users } = useContext(UserContext);
-
+  // FUNCTION TO LOG OUT
   const handleLogOut = () => {
     const logOut = localStorage.clear("name");
     setCurrentUser(null);
