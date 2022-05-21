@@ -19,7 +19,7 @@ const Header = () => {
     }
     if (!currentUser && !!localStorage.getItem("name")) {
       const connectedUser = users.find((user) => {
-        return user._id === JSON.parse(localStorage.getItem("name"))._id;
+        return user?._id === JSON.parse(localStorage.getItem("name"))?._id;
       });
       setCurrentUser(connectedUser);
     }
