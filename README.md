@@ -1,6 +1,6 @@
 # My Cup of Coffee
 
-My Cup of Coffee is a social media platform where users can discover new coffee shop in Montreal through their friends reccomendation.
+My Cup of Coffee is a social media platform where users can discover new coffee shop in Montreal through their friends recomendation.
 
 
 
@@ -27,9 +27,9 @@ My Cup of Coffee is a social media platform where users can discover new coffee 
 - user can create a new account or log into an excisting account
 - user can see all the coffee shop in the website
 - user can add a review
-- user can add and remove a coffeeshop from their reccomended list
+- user can add and remove a coffeeshop from their recomended list
 - user can follow and unfollow another user
-- user can see what the people he follows as reccomended.
+- user can see what the people he follows as recomended.
 
 ## Local Development
 
